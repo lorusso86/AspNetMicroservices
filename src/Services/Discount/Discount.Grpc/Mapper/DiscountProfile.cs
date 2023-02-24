@@ -6,11 +6,10 @@ namespace Discount.Grpc.Mapper
 {
     public class DiscountProfile : Profile
     {
-        protected DiscountProfile()
+        public DiscountProfile()
         {
             CreateMap<Coupon, CouponModel>().ReverseMap();
 
         }
-
     }
 }
