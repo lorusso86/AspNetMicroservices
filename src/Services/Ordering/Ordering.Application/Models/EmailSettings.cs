@@ -10,6 +10,6 @@ namespace Ordering.Application.Models
     {
         public string ApiKey { get;set; }
         public string FromAddress { get; set; }
-        public string FronName { get; set; }
+        public string FromName { get; set; }
     }
 }
