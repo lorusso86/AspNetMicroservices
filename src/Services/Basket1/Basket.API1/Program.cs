@@ -1,6 +1,8 @@
-using Basket.API1.GrpcServices;
+//using Basket.API1.GrpcServices;
 using Basket.API1.Repositories;
 using Discount.Grpc.Protos;
+using MassTransit;
+using MassTransit.AspNetCoreIntegration;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,19 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>
     (o => o.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]));
 
 builder.Services.AddScoped<DiscountGrpcService>();
+
+// MassTransit-RabbitMQ Configuration
+builder.Services.AddMassTransit(config => {
+    config.UsingRabbitMq((ctx, cfg) => {
+        cfg.Host("amqp://guest:guest@localhost:5672"/*builder.Configuration["EventBusSettings:HostAddress"]*/);
+    });
+});
+
+//nn serve nelle nuove versioni
+
+//builder.Services.AddMassTransitHostedService();
+
+
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {
